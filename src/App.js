@@ -23,8 +23,29 @@ const list = [
 ];
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      list: list
+    };
+  }
+
+  onDismiss(id) {
+    console.log('onDismiss', id)
+    const isNotId = item => item.objectID !== id;
+    const updatedList = this
+      .state
+      .list
+      .filter(isNotId);
+    this.setState({list: updatedList});
+  }
+
+  onDismiss2 = () => {
+    console.log('onDismiss2', this.state.list[0])
+  }
+
   render() {
-    const header = "Welcome to the Road to learn React 4";
+    const header = "Welcome to the Road to learn React 7";
     return (
       <div className="App">
         <div className="App-header">
@@ -32,18 +53,29 @@ class App extends Component {
           <h2>{header}</h2>
         </div>
         <div className="App-list">
-          {list.map(item => {
-            return (
-              <div key={item.objectID}>
-                <span>
-                  <a href={item.url}>{item.title}</a>
-                </span>
-                <span>{item.author}</span>
-                <span>{item.num_comments}</span>
-                <span>{item.points}</span>
-              </div>
-            );
-          })}
+          <form>
+            <input type="text"/>
+          </form>
+          {this
+            .state
+            .list
+            .map(item => {
+              return (
+                <div key={item.objectID}>
+                  <span>
+                    <a href={item.url}>{item.title}</a>
+                  </span>
+                  <span>{item.author}</span>
+                  <span>{item.num_comments}</span>
+                  <span>{item.points}</span>
+                  <span>
+                    <button onClick={() => this.onDismiss(item.objectID)} type="button">
+                      Dismiss
+                    </button>
+                  </span>
+                </div>
+              );
+            })}
         </div>
       </div>
     );

@@ -59,6 +59,13 @@ class App extends Component {
     this.fetchSearchTopstories(searchTerm);
   }
 
+  //
+  onSearchSubmit = (event) => {
+    const {searchTerm} = this.state;
+    this.fetchSearchTopstories(searchTerm);
+    event.preventDefault();
+  }
+
   onDismiss = (id) => {
     const isNotId = item => item.objectID !== id;
     const updatedHits = this
@@ -85,11 +92,14 @@ class App extends Component {
     return (
       <div className="page">
         <div className="interactions">
-          <Search value={searchTerm} onChange={this.onSearchChange}>
+          <Search
+            value={searchTerm}
+            onChange={this.onSearchChange}
+            onSubmit={this.onSearchSubmit}>
             Search :
           </Search>
         </div>
-        {result && <Table list={result.hits} pattern={searchTerm} onDismiss={this.onDismiss}/>}
+        {result && <Table list={result.hits} onDismiss={this.onDismiss}/>}
       </div>
     );
   }
@@ -113,9 +123,11 @@ class Search extends Component {
 */
 
 // functional stateless component
-const Search = ({value, onChange, children}) => <form>
-  {children}
+const Search = ({value, onChange, onSubmit, children}) => <form onSubmit={onSubmit}>
   <input type="text" value={value} onChange={onChange}/>
+  <button type="submit">
+    {children}
+  </button>
 </form>
 
 /*
@@ -157,28 +169,26 @@ const smallColumn = {
   width: '10%'
 };
 
-const Table = ({list, pattern, onDismiss}) => <div className="table">
-  {list
-    .filter(isSearched(pattern))
-    .map(item => <div key={item.objectID} className="table-row">
-      <span style={largeColumn}>
-        <a href={item.url}>{item.title}</a>
-      </span>
-      <span style={midColumn}>
-        {item.author}
-      </span>
-      <span style={smallColumn}>
-        {item.num_comments}
-      </span>
-      <span style={smallColumn}>
-        {item.points}
-      </span>
-      <span style={smallColumn}>
-        <Button onClick={() => onDismiss(item.objectID)} className="button-inline">
-          Dismiss
-        </Button>
-      </span>
-    </div>)}
+const Table = ({list, onDismiss}) => <div className="table">
+  {list.map(item => <div key={item.objectID} className="table-row">
+    <span style={largeColumn}>
+      <a href={item.url}>{item.title}</a>
+    </span>
+    <span style={midColumn}>
+      {item.author}
+    </span>
+    <span style={smallColumn}>
+      {item.num_comments}
+    </span>
+    <span style={smallColumn}>
+      {item.points}
+    </span>
+    <span style={smallColumn}>
+      <Button onClick={() => onDismiss(item.objectID)} className="button-inline">
+        Dismiss
+      </Button>
+    </span>
+  </div>)}
 </div>
 
 class Button extends Component {

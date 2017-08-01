@@ -2,8 +2,14 @@ import './App.css';
 
 import React, {Component} from 'react';
 
+const DEFAULT_QUERY = 'redux';
+const PATH_BASE = 'https://hn.algolia.com/api/v1';
+const PATH_SEARCH = '/search';
+const PARAM_SEARCH = 'query=';
+
 // import logo from './logo.svg';
 
+/*
 const list = [
   {
     title: 'React',
@@ -21,6 +27,7 @@ const list = [
     objectID: 1
   }
 ];
+*/
 
 const isSearched = (searchTerm) => (item) => !searchTerm || item
   .title
@@ -31,9 +38,25 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: list,
-      searchTerm: ''
+      result: null,
+      searchTerm: DEFAULT_QUERY
     };
+  }
+
+  setSearchTopstories = (result) => {
+    this.setState({result});
+  }
+
+  fetchSearchTopstories = (searchTerm) => {
+    fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
+      .then(response => response.json())
+      .then(result => this.setSearchTopstories(result))
+      .catch(e => e);
+  }
+
+  componentDidMount() {
+    const {searchTerm} = this.state;
+    this.fetchSearchTopstories(searchTerm);
   }
 
   onDismiss = (id) => {
@@ -52,7 +75,11 @@ class App extends Component {
   }
 
   render() {
-    const {searchTerm, list} = this.state;
+    const {searchTerm, result} = this.state;
+    if (!result) {
+      return null;
+    }
+
     return (
       <div className="page">
         <div className="interactions">
@@ -60,7 +87,7 @@ class App extends Component {
             Search :
           </Search>
         </div>
-        <Table list={list} pattern={searchTerm} onDismiss={this.onDismiss}/>
+        <Table list={result.hits} pattern={searchTerm} onDismiss={this.onDismiss}/>
       </div>
     );
   }

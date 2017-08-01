@@ -3,31 +3,12 @@ import './App.css';
 import React, {Component} from 'react';
 
 const DEFAULT_QUERY = 'redux';
+const DEFAULT_PAGE = 0;
+
 const PATH_BASE = 'https://hn.algolia.com/api/v1';
 const PATH_SEARCH = '/search';
 const PARAM_SEARCH = 'query=';
-
-// import logo from './logo.svg';
-
-/*
-const list = [
-  {
-    title: 'React',
-    url: 'https://facebook.github.io/react/',
-    author: 'Jordan Walke',
-    num_comments: 3,
-    points: 4,
-    objectID: 0
-  }, {
-    title: 'Redux',
-    url: 'https://github.com/reactjs/redux',
-    author: 'Dan Abramov, Andrew Clark',
-    num_comments: 2,
-    points: 5,
-    objectID: 1
-  }
-];
-*/
+const PARAM_PAGE = 'page=';
 
 const isSearched = (searchTerm) => (item) => !searchTerm || item
   .title
@@ -107,21 +88,6 @@ class App extends Component {
 
 export default App;
 
-/*
-// ES6 Class Components
-class Search extends Component {
-  render() {
-    const {value, onChange, children} = this.props;
-    return (
-      <form>
-        {children}
-        <input type="text" value={value} onChange={onChange}/>
-      </form>
-    );
-  }
-}
-*/
-
 // functional stateless component
 const Search = ({value, onChange, onSubmit, children}) => <form onSubmit={onSubmit}>
   <input type="text" value={value} onChange={onChange}/>
@@ -129,33 +95,6 @@ const Search = ({value, onChange, onSubmit, children}) => <form onSubmit={onSubm
     {children}
   </button>
 </form>
-
-/*
-class Table extends Component {
-  render() {
-    const {list, pattern, onDismiss} = this.props;
-    return (
-      <div className="table">
-        {list
-          .filter(isSearched(pattern))
-          .map(item => <div key={item.objectID} className="table-row">
-            <span>
-              <a href={item.url}>{item.title}</a>
-            </span>
-            <span>{item.author}</span>
-            <span>{item.num_comments}</span>
-            <span>{item.points}</span>
-            <span>
-              <Button className="button-inline" onClick={() => onDismiss(item.objectID)}>
-                Dismiss
-              </Button>
-            </span>
-          </div>)}
-      </div>
-    );
-  }
-}
-*/
 
 const largeColumn = {
   width: '40%'

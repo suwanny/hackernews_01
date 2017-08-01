@@ -71,6 +71,8 @@ class App extends Component {
 
 export default App;
 
+/*
+// ES6 Class Components
 class Search extends Component {
   render() {
     const {value, onChange, children} = this.props;
@@ -82,6 +84,13 @@ class Search extends Component {
     );
   }
 }
+*/
+
+// functional stateless component
+const Search = ({value, onChange, children}) => <form>
+  {children}
+  <input type="text" value={value} onChange={onChange}/>
+</form>
 
 class Table extends Component {
   render() {

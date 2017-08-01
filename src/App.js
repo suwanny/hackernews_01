@@ -2,7 +2,7 @@ import './App.css';
 
 import React, {Component} from 'react';
 
-import logo from './logo.svg';
+// import logo from './logo.svg';
 
 const list = [
   {
@@ -52,17 +52,14 @@ class App extends Component {
   }
 
   render() {
-    const header = "Welcome to the Road to learn React 7";
     const {searchTerm, list} = this.state;
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo"/>
-          <h2>{header}</h2>
+      <div className="page">
+        <div className="interactions">
+          <Search value={searchTerm} onChange={this.onSearchChange}>
+            Search :
+          </Search>
         </div>
-        <Search value={searchTerm} onChange={this.onSearchChange}>
-          Search
-        </Search>
         <Table list={list} pattern={searchTerm} onDismiss={this.onDismiss}/>
       </div>
     );
@@ -92,14 +89,15 @@ const Search = ({value, onChange, children}) => <form>
   <input type="text" value={value} onChange={onChange}/>
 </form>
 
+/*
 class Table extends Component {
   render() {
     const {list, pattern, onDismiss} = this.props;
     return (
-      <div>
+      <div className="table">
         {list
           .filter(isSearched(pattern))
-          .map(item => <div key={item.objectID}>
+          .map(item => <div key={item.objectID} className="table-row">
             <span>
               <a href={item.url}>{item.title}</a>
             </span>
@@ -107,7 +105,7 @@ class Table extends Component {
             <span>{item.num_comments}</span>
             <span>{item.points}</span>
             <span>
-              <Button onClick={() => onDismiss(item.objectID)}>
+              <Button className="button-inline" onClick={() => onDismiss(item.objectID)}>
                 Dismiss
               </Button>
             </span>
@@ -116,6 +114,43 @@ class Table extends Component {
     );
   }
 }
+*/
+
+const largeColumn = {
+  width: '40%'
+};
+
+const midColumn = {
+  width: '30%'
+};
+
+const smallColumn = {
+  width: '10%'
+};
+
+const Table = ({list, pattern, onDismiss}) => <div className="table">
+  {list
+    .filter(isSearched(pattern))
+    .map(item => <div key={item.objectID} className="table-row">
+      <span style={largeColumn}>
+        <a href={item.url}>{item.title}</a>
+      </span>
+      <span style={midColumn}>
+        {item.author}
+      </span>
+      <span style={smallColumn}>
+        {item.num_comments}
+      </span>
+      <span style={smallColumn}>
+        {item.points}
+      </span>
+      <span style={smallColumn}>
+        <Button onClick={() => onDismiss(item.objectID)} className="button-inline">
+          Dismiss
+        </Button>
+      </span>
+    </div>)}
+</div>
 
 class Button extends Component {
   render() {

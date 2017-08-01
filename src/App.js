@@ -53,8 +53,8 @@ class App extends Component {
 
   fetchSearchTopstories = (searchTerm, page) => {
     fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
-    // fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}$
-    // {page}`) fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
+    // fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}`)
+    // fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
       .then(response => response.json())
       .then(result => this.setSearchTopstories(result))
       .catch(e => e);
@@ -157,15 +157,9 @@ const Table = ({list, onDismiss}) => <div className="table">
     <span style={largeColumn}>
       <a href={item.url}>{item.title}</a>
     </span>
-    <span style={midColumn}>
-      {item.author}
-    </span>
-    <span style={smallColumn}>
-      {item.num_comments}
-    </span>
-    <span style={smallColumn}>
-      {item.points}
-    </span>
+    <span style={midColumn}>{item.author}</span>
+    <span style={smallColumn}>{item.num_comments}</span>
+    <span style={smallColumn}>{item.points}</span>
     <span style={smallColumn}>
       <Button onClick={() => onDismiss(item.objectID)} className="button-inline">
         Dismiss

@@ -1,21 +1,25 @@
-import './App.css';
+import './index.css';
 
+import {
+  DEFAULT_HPP,
+  DEFAULT_PAGE,
+  DEFAULT_QUERY,
+  PARAM_HPP,
+  PARAM_PAGE,
+  PARAM_SEARCH,
+  PATH_BASE,
+  PATH_SEARCH,
+} from '../../constants';
 import React, {Component} from 'react';
 
-const DEFAULT_QUERY = 'redux';
-const DEFAULT_PAGE = 0;
-const DEFAULT_HPP = '10';
+import Button from '../Button';
+import Search from '../Search';
+import Table from '../Table';
 
-const PATH_BASE = 'https://hn.algolia.com/api/v1';
-const PATH_SEARCH = '/search';
-const PARAM_SEARCH = 'query=';
-const PARAM_PAGE = 'page=';
-const PARAM_HPP = 'hitsPerPage=';
-
-const isSearched = (searchTerm) => (item) => !searchTerm || item
-  .title
-  .toLowerCase()
-  .includes(searchTerm.toLowerCase());
+// const isSearched = (searchTerm) => (item) => !searchTerm || item
+//   .title
+//   .toLowerCase()
+//   .includes(searchTerm.toLowerCase());
 
 class App extends Component {
   constructor(props) {
@@ -131,55 +135,3 @@ class App extends Component {
 }
 
 export default App;
-
-// functional stateless component
-const Search = ({value, onChange, onSubmit, children}) => <form onSubmit={onSubmit}>
-  <input type="text" value={value} onChange={onChange}/>
-  <button type="submit">
-    {children}
-  </button>
-</form>
-
-const largeColumn = {
-  width: '40%'
-};
-
-const midColumn = {
-  width: '30%'
-};
-
-const smallColumn = {
-  width: '10%'
-};
-
-const Table = ({list, onDismiss}) => <div className="table">
-  {list.map(item => <div key={item.objectID} className="table-row">
-    <span style={largeColumn}>
-      <a href={item.url}>{item.title}</a>
-    </span>
-    <span style={midColumn}>{item.author}</span>
-    <span style={smallColumn}>{item.num_comments}</span>
-    <span style={smallColumn}>{item.points}</span>
-    <span style={smallColumn}>
-      <Button onClick={() => onDismiss(item.objectID)} className="button-inline">
-        Dismiss
-      </Button>
-    </span>
-  </div>)}
-</div>
-
-class Button extends Component {
-  render() {
-    const {
-      onClick,
-      className = '',
-      children
-    } = this.props;
-
-    return (
-      <button onClick={onClick} className={className} type="button">
-        {children}
-      </button>
-    );
-  }
-}

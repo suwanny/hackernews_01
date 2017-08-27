@@ -3,7 +3,7 @@
 exports[`Button snapshots 1`] = `
 <button
   className=""
-  onClick={undefined}
+  onClick={[Function]}
   type="button"
 >
   Give Me More

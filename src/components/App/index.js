@@ -15,7 +15,6 @@ import React, {Component} from 'react';
 import Button from '../Button';
 import Search from '../Search';
 import Table from '../Table';
-import { sortBy } from 'lodash';
 
 // const isSearched = (searchTerm) => (item) => !searchTerm || item
 //   .title
@@ -30,6 +29,8 @@ class App extends Component {
       searchKey: '',
       searchTerm: DEFAULT_QUERY,
       isLoading: false,
+      sortKey: 'NONE',
+      isSortReverse: false,
     };
   }
 
@@ -113,12 +114,19 @@ class App extends Component {
     return !this.state.results[searchTerm];
   }
 
+  onSort = (sortKey) => {
+    const isSortReverse = this.state.sortKey === sortKey && !this.state.isSortReverse;
+    this.setState({ sortKey, isSortReverse });
+  }
+
   render() {
     const {
       searchTerm,
       results,
       searchKey,
-      isLoading
+      isLoading,
+      sortKey,
+      isSortReverse,
     } = this.state;
     // const {searchTerm, results, searchKey} = this.state;
     const page = (results && results[searchKey] && results[searchKey].page) || 0;
@@ -134,7 +142,15 @@ class App extends Component {
             Search
           </Search>
         </div>
-        <Table list={list} onDismiss={this.onDismiss}/>
+
+        <Table
+          list={list}
+          onDismiss={this.onDismiss}
+          sortKey={sortKey}
+          onSort={this.onSort}
+          isSortReverse={isSortReverse}
+        />
+
         <div className="interactions">
           <ButtonWithLoading
             isLoading={isLoading}

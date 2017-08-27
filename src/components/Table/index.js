@@ -1,6 +1,7 @@
+import React, { Component } from 'react';
+
 import Button from '../Button';
 import PropTypes from 'prop-types';
-import React from 'react';
 import classNames from 'classnames';
 import { sortBy } from 'lodash';
 
@@ -40,14 +41,32 @@ const Sort = ({ sortKey, onSort, activeSortKey, children }) => {
   );
 }
 
+class Table extends Component {
+  constructor(props) {
+    super(props);
 
-const Table = ({
-    list,
-    sortKey,
-    onSort,
-    isSortReverse,
-    onDismiss
-  }) => {
+    this.state = {
+      sortKey: 'NONE',
+      isSortReverse: false,
+    };
+  }
+
+  onSort = (sortKey) => {
+    const isSortReverse = this.state.sortKey === sortKey && !this.state.isSortReverse;
+    this.setState({ sortKey, isSortReverse });
+  }
+
+  render() {
+    const {
+      list,
+      onDismiss
+    } = this.props;
+
+    const {
+      sortKey,
+      isSortReverse,
+    } = this.state;
+
     const sortedList = SORTS[sortKey](list);
     const reverseSortedList = isSortReverse
       ? sortedList.reverse()
@@ -57,16 +76,16 @@ const Table = ({
       <div className="table">
         <div className="table-header">
           <span style={{ width: '40%' }}>
-            <Sort sortKey={'TITLE'} activeSortKey={sortKey} onSort={onSort}>Title</Sort>
+            <Sort sortKey={'TITLE'} activeSortKey={sortKey} onSort={this.onSort}>Title</Sort>
           </span>
           <span style={{ width: '30%' }}>
-            <Sort sortKey={'AUTHOR'} activeSortKey={sortKey} onSort={onSort}>Author</Sort>
+            <Sort sortKey={'AUTHOR'} activeSortKey={sortKey} onSort={this.onSort}>Author</Sort>
           </span>
           <span style={{ width: '10%' }}>
-            <Sort sortKey={'COMMENTS'} activeSortKey={sortKey} onSort={onSort}>Comments</Sort>
+            <Sort sortKey={'COMMENTS'} activeSortKey={sortKey} onSort={this.onSort}>Comments</Sort>
           </span>
           <span style={{ width: '10%' }}>
-            <Sort sortKey={'POINTS'} activeSortKey={sortKey} onSort={onSort}>Points</Sort>
+            <Sort sortKey={'POINTS'} activeSortKey={sortKey} onSort={this.onSort}>Points</Sort>
           </span>
           <span style={{ width: '10%' }}>
             Archive
@@ -91,7 +110,7 @@ const Table = ({
       </div>
     );
   }
-
+}
 
 Table.propTypes = {
   list: PropTypes.arrayOf(

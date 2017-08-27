@@ -16,11 +16,6 @@ import Button from '../Button';
 import Search from '../Search';
 import Table from '../Table';
 
-// const isSearched = (searchTerm) => (item) => !searchTerm || item
-//   .title
-//   .toLowerCase()
-//   .includes(searchTerm.toLowerCase());
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -35,7 +30,6 @@ class App extends Component {
   }
 
   setSearchTopstories = (result) => {
-    // this.setState({result});
     const {hits, page} = result;
     const {searchKey, results} = this.state;
     const oldHits = results && results[searchKey]
@@ -63,8 +57,6 @@ class App extends Component {
     this.setState({ isLoading: true });
 
     fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
-    // fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}`)
-    // fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
       .then(response => response.json())
       .then(result => this.setSearchTopstories(result))
       .catch(e => e);
@@ -72,16 +64,13 @@ class App extends Component {
 
   componentDidMount() {
     const {searchTerm} = this.state;
-    // this.fetchSearchTopstories(searchTerm);
     this.setState({searchKey: searchTerm});
     this.fetchSearchTopstories(searchTerm, DEFAULT_PAGE);
   }
 
-  //
   onSearchSubmit = (event) => {
     const {searchTerm} = this.state;
     this.setState({searchKey: searchTerm});
-    // this.fetchSearchTopstories(searchTerm, DEFAULT_PAGE);
     if (this.needsToSearchTopstories(searchTerm)) {
       this.fetchSearchTopstories(searchTerm, DEFAULT_PAGE);
     }
@@ -114,21 +103,13 @@ class App extends Component {
     return !this.state.results[searchTerm];
   }
 
-  onSort = (sortKey) => {
-    const isSortReverse = this.state.sortKey === sortKey && !this.state.isSortReverse;
-    this.setState({ sortKey, isSortReverse });
-  }
-
   render() {
     const {
       searchTerm,
       results,
       searchKey,
       isLoading,
-      sortKey,
-      isSortReverse,
     } = this.state;
-    // const {searchTerm, results, searchKey} = this.state;
     const page = (results && results[searchKey] && results[searchKey].page) || 0;
     const list = (results && results[searchKey] && results[searchKey].hits) || [];
 
@@ -146,9 +127,6 @@ class App extends Component {
         <Table
           list={list}
           onDismiss={this.onDismiss}
-          sortKey={sortKey}
-          onSort={this.onSort}
-          isSortReverse={isSortReverse}
         />
 
         <div className="interactions">
@@ -167,9 +145,6 @@ export default App;
 
 const Loading = () =>
   <div>Loading ...</div>
-
-// const withFoo = (Component) => (props) =>
-//   <Component { ...props } />
 
 const withLoading = (Component) => (props) =>
   props.isLoading ? <Loading /> : <Component { ...props } />

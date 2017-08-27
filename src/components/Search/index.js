@@ -4,7 +4,7 @@ import React, {Component}  from 'react';
 // const Search = ({value, onChange, onSubmit, children}) => <form onSubmit={onSubmit}>
 class Search extends Component {
   componentDidMount() {
-    this.input.focus();
+    // this.input.focus();
   }
 
   render() {

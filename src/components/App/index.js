@@ -15,6 +15,7 @@ import React, {Component} from 'react';
 import Button from '../Button';
 import Search from '../Search';
 import Table from '../Table';
+import { sortBy } from 'lodash';
 
 // const isSearched = (searchTerm) => (item) => !searchTerm || item
 //   .title
@@ -135,13 +136,11 @@ class App extends Component {
         </div>
         <Table list={list} onDismiss={this.onDismiss}/>
         <div className="interactions">
-          { isLoading
-            ? <Loading />
-            : <Button
-              onClick={() => this.fetchSearchTopstories(searchKey, page + 1)}>
-              More
-            </Button>
-          }
+          <ButtonWithLoading
+            isLoading={isLoading}
+            onClick={() => this.fetchSearchTopstories(searchKey, page + 1)}>
+            More
+          </ButtonWithLoading>
         </div>
       </div>
     );
@@ -152,3 +151,11 @@ export default App;
 
 const Loading = () =>
   <div>Loading ...</div>
+
+// const withFoo = (Component) => (props) =>
+//   <Component { ...props } />
+
+const withLoading = (Component) => (props) =>
+  props.isLoading ? <Loading /> : <Component { ...props } />
+
+const ButtonWithLoading = withLoading(Button);

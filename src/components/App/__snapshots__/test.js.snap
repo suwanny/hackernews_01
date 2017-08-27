@@ -18,7 +18,7 @@ exports[`App snapshots 1`] = `
       <button
         type="submit"
       >
-        Search :
+        Search
       </button>
     </form>
   </div>
@@ -28,13 +28,9 @@ exports[`App snapshots 1`] = `
   <div
     className="interactions"
   >
-    <button
-      className=""
-      onClick={[Function]}
-      type="button"
-    >
-      More
-    </button>
+    <div>
+      Loading ...
+    </div>
   </div>
 </div>
 `;
